@@ -1,17 +1,18 @@
 import { motion } from 'framer-motion';
 import { FiBriefcase, FiAward } from 'react-icons/fi';
+import internCert from '../assets/459CS23022.pdf';
 
 const Experience = () => {
   const education = [
     {
       title: "B.E. in Artificial Intelligence & Machine Learning",
-      institution: "Current Institution",
+      institution: "Kishkinda University",
       period: "Present",
       description: "Focusing on advanced algorithms, neural networks, deep learning, and data science principles.",
     },
     {
       title: "Diploma in Computer Science & Engineering",
-      institution: "Recognized Polytechnic",
+      institution: "Sanjay Gandhi Polytechnic, Ballari",
       period: "Graduated",
       description: "Built a strong foundation in core computer science subjects including programming, databases, and computer networks.",
     }
@@ -19,10 +20,11 @@ const Experience = () => {
 
   const experience = [
     {
-      title: "Internship - Academic Management System (AMS)",
-      institution: "Sanjay Gandhi Polytechnic",
-      period: "Past",
-      description: "Developed and maintained modules for an Academic Management System. Gained hands-on experience in software development lifecycle, database management, and UI/UX design.",
+      title: "Java Full Stack Intern",
+      institution: "Techmiya Solutions India Pvt Ltd",
+      period: "Jan 2026 - Apr 2026",
+      description: "Served as a Java Full Stack Intern, contributing to software development solutions. Gained hands-on experience in the software development lifecycle, web applications, and database management.",
+      certificate: internCert
     }
   ];
 
@@ -105,7 +107,17 @@ const Experience = () => {
                       <span className="text-cyan-400 font-semibold text-sm tracking-wide uppercase">{item.period}</span>
                       <h4 className="text-xl font-bold text-white mt-2">{item.title}</h4>
                       <p className="text-gray-400 font-medium mt-1 mb-3">{item.institution}</p>
-                      <p className="text-gray-500 text-sm leading-relaxed">{item.description}</p>
+                      <p className="text-gray-500 text-sm leading-relaxed mb-4">{item.description}</p>
+                      {item.certificate && (
+                        <a 
+                          href={item.certificate} 
+                          target="_blank" 
+                          rel="noopener noreferrer" 
+                          className="inline-flex items-center gap-1.5 text-xs font-semibold text-cyan-400 hover:text-cyan-300 transition-colors"
+                        >
+                          View Certificate &rarr;
+                        </a>
+                      )}
                     </div>
                   </div>
                 </motion.div>
