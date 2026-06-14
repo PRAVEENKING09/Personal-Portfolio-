@@ -124,10 +124,20 @@ const Contact = () => {
               <div className="pt-8 mt-8 border-t border-gray-800">
                 <h4 className="text-white font-semibold text-lg mb-4">Social Profiles</h4>
                 <div className="flex gap-4">
-                  <a href="#" className="w-12 h-12 bg-gray-900 border border-gray-800 rounded-xl flex items-center justify-center text-gray-400 hover:text-white hover:border-cyan-500 transition-all hover:-translate-y-1">
+                  <a 
+                    href="https://github.com/PRAVEENKING09" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="w-12 h-12 bg-gray-900 border border-gray-800 rounded-xl flex items-center justify-center text-gray-400 hover:text-white hover:border-cyan-500 transition-all hover:-translate-y-1"
+                  >
                     <FiGithub size={20} />
                   </a>
-                  <a href="#" className="w-12 h-12 bg-gray-900 border border-gray-800 rounded-xl flex items-center justify-center text-gray-400 hover:text-white hover:border-purple-500 transition-all hover:-translate-y-1">
+                  <a 
+                    href="https://www.linkedin.com/in/c-h-praveen-kumar-033732345" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="w-12 h-12 bg-gray-900 border border-gray-800 rounded-xl flex items-center justify-center text-gray-400 hover:text-white hover:border-purple-500 transition-all hover:-translate-y-1"
+                  >
                     <FiLinkedin size={20} />
                   </a>
                 </div>
