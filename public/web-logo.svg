@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="gold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f5a623"/>
+      <stop offset="40%" stop-color="#d4881e"/>
+      <stop offset="100%" stop-color="#b8701a"/>
+    </linearGradient>
+    <linearGradient id="goldLight" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fcd779"/>
+      <stop offset="50%" stop-color="#f5a623"/>
+      <stop offset="100%" stop-color="#c77d15"/>
+    </linearGradient>
+  </defs>
+  <!-- Circular background -->
+  <circle cx="32" cy="32" r="31" fill="#0a0a0a"/>
+  <!-- Subtle gold ring border -->
+  <circle cx="32" cy="32" r="30" fill="none" stroke="url(#gold)" stroke-width="2"/>
+  <!-- AS Text - bold gold monogram -->
+  <text x="32" y="44" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-weight="900" font-size="32" fill="url(#goldLight)" letter-spacing="-2">AS</text>
+</svg>
