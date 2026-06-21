@@ -21,7 +21,7 @@ const Hero = () => {
   const yVal = isProgrammatic ? 0 : y;
 
   return (
-    <section ref={containerRef} id="hero" className="min-h-screen flex items-center justify-center relative overflow-hidden bg-transparent">
+    <section ref={containerRef} id="hero" className="min-h-screen flex flex-col md:flex-row items-center justify-start md:justify-center relative overflow-hidden bg-transparent pt-28 pb-16 md:pt-0 md:pb-0">
       {/* Background elements — reduced blur for performance */}
       <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-orange-600/10 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-sky-600/10 rounded-full blur-3xl pointer-events-none" />
@@ -33,14 +33,14 @@ const Hero = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
-          <p className="text-orange-500 font-medium tracking-wide mb-2 text-xl md:text-2xl">Hello, I'm</p>
-          <h1 className="text-5xl md:text-7xl font-bold text-white mb-4 leading-tight">
+          <p className="text-orange-500 font-medium tracking-wide mb-2 text-lg sm:text-xl md:text-2xl">Hello, I'm</p>
+          <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold text-white mb-4 leading-tight">
             CH Praveen Kumar
           </h1>
-          <h2 className="text-2xl md:text-4xl font-semibold text-gray-400 mb-6">
+          <h2 className="text-xl sm:text-2xl md:text-4xl font-semibold text-gray-400 mb-6">
             Aspiring <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 via-amber-500 to-sky-400">AI/ML Engineer</span>
           </h2>
-          <p className="text-gray-400 text-lg md:text-xl max-w-2xl mb-10 mx-auto md:mx-0">
+          <p className="text-gray-400 text-base md:text-xl max-w-2xl mb-6 md:mb-10 mx-auto md:mx-0">
             Diploma CSE Graduate currently pursuing B.E. in Artificial Intelligence & Machine Learning at Kishkinda University. Passionate about building intelligent systems and modern web applications.
           </p>
 
@@ -63,7 +63,7 @@ const Hero = () => {
         </motion.div>
 
         <motion.div
-          className="w-full md:w-2/5 mt-16 md:mt-0 flex justify-center"
+          className="w-full md:w-2/5 mt-10 md:mt-0 flex justify-center"
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, delay: 0.2 }}
