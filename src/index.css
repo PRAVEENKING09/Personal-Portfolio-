@@ -6,17 +6,20 @@
   body {
     @apply bg-gray-950 text-gray-300 font-sans antialiased;
   }
-  
+
   /* Custom scrollbar */
   ::-webkit-scrollbar {
     width: 10px;
   }
+
   ::-webkit-scrollbar-track {
     @apply bg-gray-950;
   }
+
   ::-webkit-scrollbar-thumb {
     @apply bg-gray-800 rounded-full border-2 border-solid border-gray-950;
   }
+
   ::-webkit-scrollbar-thumb:hover {
     @apply bg-gray-700;
   }
@@ -26,4 +29,43 @@
   .text-gradient {
     @apply bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-purple-500;
   }
+}
+
+/* Skill Card Hover Shine & Glow Effects */
+@keyframes shine-sweep {
+  0% {
+    transform: translateX(-150%) skewX(-15deg);
+  }
+  100% {
+    transform: translateX(150%) skewX(-15deg);
+  }
+}
+
+.shine-effect {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 200%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.35) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transform: translateX(-150%) skewX(-15deg);
+  pointer-events: none;
+}
+
+.group:hover .shine-effect {
+  animation: shine-sweep 0.75s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.skill-card-shine {
+  transition: all 0.3s ease;
+}
+
+.skill-card-shine:hover {
+  border-color: var(--skill-color) !important;
+  box-shadow: 0 0 25px var(--skill-color-glow) !important;
 }

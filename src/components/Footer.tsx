@@ -12,23 +12,23 @@ const Footer = () => {
     <footer className="bg-gray-950 py-8 border-t border-gray-900 relative z-50">
       <div className="container mx-auto px-6 md:px-12 flex flex-col md:flex-row justify-between items-center gap-4">
         <div className="text-xl font-bold text-white tracking-tighter">
-          CH<span className="text-cyan-400">.</span>
+          CH<span className="text-orange-500">.</span>
         </div>
-        
+
         <div className="text-gray-500 text-sm text-center md:text-left">
           &copy; {currentYear} CH Praveen Kumar. All rights reserved.
         </div>
-        
+
         <div className="flex gap-6 text-sm font-medium">
-          <button 
-            onClick={() => setModalType('privacy')} 
-            className="text-gray-500 hover:text-cyan-400 transition-colors cursor-pointer"
+          <button
+            onClick={() => setModalType('privacy')}
+            className="text-gray-500 hover:text-orange-400 transition-colors cursor-pointer"
           >
             Privacy
           </button>
-          <button 
-            onClick={() => setModalType('terms')} 
-            className="text-gray-500 hover:text-cyan-400 transition-colors cursor-pointer"
+          <button
+            onClick={() => setModalType('terms')}
+            className="text-gray-500 hover:text-orange-400 transition-colors cursor-pointer"
           >
             Terms
           </button>
@@ -59,7 +59,7 @@ const Footer = () => {
               {/* Close Button */}
               <button
                 onClick={closeModal}
-                className="absolute top-6 right-6 p-2 bg-gray-950 border border-gray-800 hover:border-cyan-500 text-gray-400 hover:text-white rounded-lg transition-all"
+                className="absolute top-6 right-6 p-2 bg-gray-950 border border-gray-800 hover:border-orange-500 text-gray-400 hover:text-white rounded-lg transition-all"
                 aria-label="Close modal"
               >
                 <FiX size={18} />
@@ -69,11 +69,11 @@ const Footer = () => {
               <h3 className="text-2xl font-bold text-white mb-6 pr-8">
                 {modalType === 'privacy' ? (
                   <>
-                    Privacy <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-500">Policy</span>
+                    Privacy <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 via-amber-500 to-sky-400">Policy</span>
                   </>
                 ) : (
                   <>
-                    Terms of <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-500">Service</span>
+                    Terms of <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 via-amber-500 to-sky-400">Service</span>
                   </>
                 )}
               </h3>
@@ -83,7 +83,7 @@ const Footer = () => {
                 {modalType === 'privacy' ? (
                   <>
                     <p className="text-gray-400">Last updated: June 14, 2026</p>
-                    
+
                     <h4 className="text-white font-semibold text-base mt-4">1. Introduction</h4>
                     <p>
                       Welcome to my personal portfolio. I value your privacy and aim to be transparent about any data collected when you interact with this website.
@@ -118,7 +118,7 @@ const Footer = () => {
                     <p>
                       If you have any questions or concerns regarding this policy, feel free to reach out directly to:
                       <br />
-                      <a href="mailto:www.praveenking09@gmail.com" className="text-cyan-400 hover:underline">www.praveenking09@gmail.com</a>
+                      <a href="mailto:www.praveenking09@gmail.com" className="text-orange-400 hover:underline">www.praveenking09@gmail.com</a>
                     </p>
                   </>
                 ) : (

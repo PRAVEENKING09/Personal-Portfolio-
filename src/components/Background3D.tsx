@@ -1,6 +1,6 @@
 import { useRef, useEffect } from 'react';
 
-const BackgroundParticles = () => {
+const Background3D = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -45,7 +45,8 @@ const BackgroundParticles = () => {
       size: number;
       baseX: number;
       baseY: number;
-      density: number;
+      speedX: number;
+      speedY: number;
       color: string;
 
       constructor() {
@@ -53,18 +54,20 @@ const BackgroundParticles = () => {
         this.y = Math.random() * canvas!.height;
         this.baseX = this.x;
         this.baseY = this.y;
-        this.size = Math.random() * 2 + 1.5;
-        this.density = (Math.random() * 30) + 1;
-        // Randomly assign cyan or purple colors, fully opaque for brightness
-        this.color = Math.random() > 0.5 ? 'rgba(34, 211, 238, 1)' : 'rgba(168, 85, 247, 1)';
+        this.size = Math.random() * 0.9 + 0.8;
+        // Slow autonomous movement velocity
+        this.speedX = (Math.random() - 0.5) * 0.4;
+        this.speedY = (Math.random() - 0.5) * 0.4;
+        // Naruto theme: Kurama Orange (rgba(249, 115, 22)) and Rasengan Blue (rgba(14, 165, 233))
+        this.color = Math.random() > 0.5 ? 'rgba(249, 115, 22, 1)' : 'rgba(14, 165, 233, 1)';
       }
 
       update() {
-        // Very slow autonomous drift
-        this.baseX += (Math.random() - 0.5) * 0.5;
-        this.baseY += (Math.random() - 0.5) * 0.5;
+        // Move particles autonomously
+        this.baseX += this.speedX;
+        this.baseY += this.speedY;
 
-        // Wrap around screen
+        // Wrap around screen boundaries
         if (this.baseX > canvas!.width) this.baseX = 0;
         if (this.baseX < 0) this.baseX = canvas!.width;
         if (this.baseY > canvas!.height) this.baseY = 0;
@@ -79,9 +82,9 @@ const BackgroundParticles = () => {
           const maxDistance = mouse.radius;
 
           if (distance < maxDistance) {
-            // Use a smooth ease to pull particles towards the mouse without overshooting
-            this.x += dx * 0.03;
-            this.y += dy * 0.03;
+            // Smooth ease attraction towards mouse
+            this.x += dx * 0.02;
+            this.y += dy * 0.02;
           } else {
             // Return to base position
             if (this.x !== this.baseX) {
@@ -117,10 +120,10 @@ const BackgroundParticles = () => {
 
     const init = () => {
       particlesArray = [];
-      // Dynamic density based on screen size
-      let numberOfParticles = (canvas.height * canvas.width) / 12000;
-      // Cap the particles to avoid performance issues
-      if (numberOfParticles > 200) numberOfParticles = 200;
+      // Dynamic density based on screen size (highly optimized density)
+      let numberOfParticles = (canvas.height * canvas.width) / 8500;
+      // Cap the particles to 250 for high performance
+      if (numberOfParticles > 250) numberOfParticles = 250;
 
       for (let i = 0; i < numberOfParticles; i++) {
         particlesArray.push(new Particle());
@@ -129,16 +132,21 @@ const BackgroundParticles = () => {
 
     const connect = () => {
       let opacityValue = 1;
+      const connectionDist = 95;
       for (let a = 0; a < particlesArray.length; a++) {
         for (let b = a; b < particlesArray.length; b++) {
           let dx = particlesArray[a].x - particlesArray[b].x;
           let dy = particlesArray[a].y - particlesArray[b].y;
           let distance = Math.sqrt(dx * dx + dy * dy);
 
-          if (distance < 120) {
-            opacityValue = 1 - (distance / 120);
-            ctx.strokeStyle = `rgba(100, 100, 250, ${opacityValue * 0.2})`;
-            ctx.lineWidth = 1;
+          if (distance < connectionDist) {
+            opacityValue = 1 - (distance / connectionDist);
+            // Dynamic theme colored connecting lines
+            const isOrange = particlesArray[a].color.includes('249');
+            ctx.strokeStyle = isOrange
+              ? `rgba(249, 115, 22, ${opacityValue * 0.15})`
+              : `rgba(14, 165, 233, ${opacityValue * 0.15})`;
+            ctx.lineWidth = 0.85;
             ctx.beginPath();
             ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
             ctx.lineTo(particlesArray[b].x, particlesArray[b].y);
@@ -154,8 +162,11 @@ const BackgroundParticles = () => {
 
           if (distance < mouse.radius) {
             opacityValue = 1 - (distance / mouse.radius);
-            ctx.strokeStyle = `rgba(34, 211, 238, ${opacityValue * 0.5})`; // Cyan glowing lines
-            ctx.lineWidth = 1.5;
+            const isOrange = particlesArray[a].color.includes('249');
+            ctx.strokeStyle = isOrange
+              ? `rgba(249, 115, 22, ${opacityValue * 0.35})`
+              : `rgba(14, 165, 233, ${opacityValue * 0.35})`;
+            ctx.lineWidth = 1.2;
             ctx.beginPath();
             ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
             ctx.lineTo(mouse.x, mouse.y);
@@ -189,10 +200,10 @@ const BackgroundParticles = () => {
   }, []);
 
   return (
-    <div className="fixed inset-0 z-0 pointer-events-none">
+    <div className="fixed inset-0 z-0 pointer-events-none bg-gray-950">
       <canvas ref={canvasRef} className="absolute inset-0 w-full h-full opacity-100" />
     </div>
   );
 };
 
-export default BackgroundParticles;
+export default Background3D;
