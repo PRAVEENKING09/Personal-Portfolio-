@@ -1,32 +1,55 @@
-import { useRef } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { useRef, useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
 import { FiArrowDown, FiDownload, FiMail, FiCpu } from 'react-icons/fi';
 import { Link } from 'react-scroll';
-import { useProgrammaticScroll } from '../hooks/useProgrammaticScroll';
 import praveenImage from '../assets/praveen.jpeg';
 import resumePdf from '../assets/Praveen__Resume.pdf';
 
 const Hero = () => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const isProgrammatic = useProgrammaticScroll();
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end start"]
-  });
 
-  const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
-  const y = useTransform(scrollYProgress, [0, 0.8], [0, -100]);
+  const roles = [
+    'AI/ML Engineer',
+    'Python Developer',
+    'Java Full Stack Developer',
+    'Diploma CSE Graduate',
+  ];
 
-  const opacityVal = isProgrammatic ? 1 : opacity;
-  const yVal = isProgrammatic ? 0 : y;
+  const [roleIdx, setRoleIdx] = useState(0);
+  const [subIdx, setSubIdx] = useState(0);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [text, setText] = useState('');
+
+  useEffect(() => {
+    // 1. Finished typing current word - pause at the end
+    if (subIdx === roles[roleIdx].length + 1 && !isDeleting) {
+      const timeout = setTimeout(() => setIsDeleting(true), 1600);
+      return () => clearTimeout(timeout);
+    }
+
+    // 2. Finished deleting current word - move to next word
+    if (subIdx === 0 && isDeleting) {
+      setIsDeleting(false);
+      setRoleIdx((prev) => (prev + 1) % roles.length);
+      return;
+    }
+
+    // 3. Increment or decrement characters based on mode
+    const timeout = setTimeout(() => {
+      setSubIdx((prev) => prev + (isDeleting ? -1 : 1));
+      setText(roles[roleIdx].substring(0, subIdx + (isDeleting ? -1 : 1)));
+    }, isDeleting ? 40 : 80);
+
+    return () => clearTimeout(timeout);
+  }, [subIdx, isDeleting, roleIdx]);
 
   return (
     <section ref={containerRef} id="hero" className="min-h-screen flex flex-col md:flex-row items-center justify-start md:justify-center relative overflow-hidden bg-transparent pt-28 pb-16 md:pt-0 md:pb-0">
-      {/* Background elements — reduced blur for performance */}
-      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-orange-600/10 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-sky-600/10 rounded-full blur-3xl pointer-events-none" />
+      {/* Background elements — use blur-2xl instead of blur-3xl */}
+      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-orange-600/10 rounded-full blur-2xl pointer-events-none" />
+      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-sky-600/10 rounded-full blur-2xl pointer-events-none" />
 
-      <motion.div style={{ opacity: opacityVal, y: yVal }} className="container mx-auto px-6 md:px-12 z-10 text-center md:text-left flex flex-col md:flex-row items-center justify-between">
+      <div className="container mx-auto px-6 md:px-12 z-10 text-center md:text-left flex flex-col md:flex-row items-center justify-between">
         <motion.div
           className="w-full md:w-3/5"
           initial={{ opacity: 0, y: 30 }}
@@ -37,11 +60,14 @@ const Hero = () => {
           <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold text-white mb-4 leading-tight">
             CH Praveen Kumar
           </h1>
-          <h2 className="text-xl sm:text-2xl md:text-4xl font-semibold text-gray-400 mb-6">
-            Aspiring <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 via-amber-500 to-sky-400">AI/ML Engineer</span>
+          <h2 className="text-xl sm:text-2xl md:text-4xl font-semibold text-gray-400 mb-6 min-h-[40px] md:min-h-[50px] flex items-center justify-center md:justify-start">
+            <span>Aspiring&nbsp;</span>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 via-amber-500 to-sky-400 font-bold border-r-2 border-orange-500/80 pr-1 animate-pulse">
+              {text}
+            </span>
           </h2>
           <p className="text-gray-400 text-base md:text-xl max-w-2xl mb-6 md:mb-10 mx-auto md:mx-0">
-            Diploma CSE Graduate currently pursuing B.E. in Artificial Intelligence & Machine Learning at Kishkinda University. Passionate about building intelligent systems and modern web applications.
+            Diploma CSE Graduate currently pursuing B.Tech in Artificial Intelligence & Machine Learning at Kishkinda University, Ballari. Passionate about building intelligent systems and modern web applications.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
@@ -85,8 +111,8 @@ const Hero = () => {
               className="absolute inset-5 sm:inset-7 md:inset-9 lg:inset-10 rounded-full border-2 border-dashed border-orange-500/30"
             />
 
-            {/* Glowing core background blur */}
-            <div className="absolute inset-0 bg-gradient-to-tr from-orange-500 to-sky-500 rounded-full blur-3xl opacity-15" />
+            {/* Glowing core background — use blur-2xl instead of blur-3xl */}
+            <div className="absolute inset-0 bg-gradient-to-tr from-orange-500 to-sky-500 rounded-full blur-2xl opacity-15" />
 
             {/* Floating Center Profile Image with Glowing Border */}
             <motion.div
@@ -106,13 +132,13 @@ const Hero = () => {
             </motion.div>
 
             {/* Floating mini nodes around */}
-            {/* Pulsing dot node (Rasengan Blue) on the outer solid ring */}
+            {/* Dot node (Rasengan Blue) on the outer solid ring */}
             <motion.div
               animate={{ y: [-6, 6, -6], x: [3, -3, 3] }}
               transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: 1 }}
               className="absolute top-6 right-6 sm:top-10 sm:right-10 md:top-14 md:right-14 w-8 h-8 sm:w-10 sm:h-10 bg-sky-500/10 rounded-full border border-sky-500/40 flex items-center justify-center shadow-[0_0_15px_rgba(56,189,248,0.3)] z-20"
             >
-              <div className="w-2 h-2 sm:w-2.5 sm:h-2.5 bg-sky-400 rounded-full animate-ping" />
+              <div className="w-2 h-2 sm:w-2.5 sm:h-2.5 bg-sky-400 rounded-full" />
             </motion.div>
 
             {/* CPU chip node (Kurama Orange) on the middle dashed ring */}
@@ -125,7 +151,7 @@ const Hero = () => {
             </motion.div>
           </div>
         </motion.div>
-      </motion.div>
+      </div>
 
       <motion.div
         className="absolute bottom-10 left-1/2 transform -translate-x-1/2"

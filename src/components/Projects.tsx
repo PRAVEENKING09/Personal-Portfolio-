@@ -1,21 +1,9 @@
 import { useRef } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { FiGithub, FiExternalLink } from 'react-icons/fi';
-import { useProgrammaticScroll } from '../hooks/useProgrammaticScroll';
 
 const Projects = () => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const isProgrammatic = useProgrammaticScroll();
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start end", "end start"]
-  });
-
-  const opacity = useTransform(scrollYProgress, [0, 0.15, 0.85, 1], [0, 1, 1, 0]);
-  const y = useTransform(scrollYProgress, [0, 0.15, 0.85, 1], [40, 0, 0, -40]);
-
-  const opacityVal = isProgrammatic ? 1 : opacity;
-  const yVal = isProgrammatic ? 0 : y;
 
   const projects = [
     {
@@ -69,11 +57,11 @@ const Projects = () => {
   };
 
   return (
-    <section ref={containerRef} id="projects" className="py-24 relative overflow-hidden">
-      {/* Background glassmorphic sheet overlaying canvas plexus particles */}
-      <div className="absolute inset-0 bg-gray-950/45 backdrop-blur-[6px] pointer-events-none" />
+    <section ref={containerRef} id="projects" className="pt-12 pb-24 relative overflow-hidden">
+      {/* Background sheet — no backdrop-blur */}
+      <div className="absolute inset-0 bg-gray-950/60 pointer-events-none" />
 
-      <motion.div style={{ opacity: opacityVal, y: yVal }} className="container mx-auto px-6 md:px-12 relative z-10">
+      <div className="container mx-auto px-6 md:px-12 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -103,10 +91,10 @@ const Projects = () => {
                 '--card-glow-color': project.themeColor,
                 '--card-glow-shadow': project.glowShadow,
               } as React.CSSProperties}
-              className="bg-gray-900/40 backdrop-blur-md border border-gray-800/80 rounded-2xl overflow-hidden group hover:border-[var(--card-glow-color)] transition-all duration-300 hover:shadow-[0_0_30px_var(--card-glow-shadow)] flex flex-col h-full relative"
+              className="bg-gray-900/50 border border-gray-800/80 rounded-2xl overflow-hidden group hover:border-[var(--card-glow-color)] transition-all duration-300 hover:shadow-[0_0_30px_var(--card-glow-shadow)] flex flex-col h-full relative"
             >
               {/* Interactive Spotlight background glow */}
-              <div 
+              <div
                 className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-0"
                 style={{
                   background: `radial-gradient(280px circle at var(--mouse-x, 0px) var(--mouse-y, 0px), ${project.glowColor}, transparent 80%)`
@@ -115,8 +103,8 @@ const Projects = () => {
 
               {/* Image Section */}
               <div className="relative h-48 overflow-hidden z-10">
-                {/* Category Pill Tag */}
-                <div className="absolute top-4 right-4 z-20 px-3 py-1 text-[10px] font-bold tracking-wider uppercase text-white bg-gray-950/75 backdrop-blur-md rounded-full border border-gray-800/80 shadow-md">
+                {/* Category Pill Tag — no backdrop-blur */}
+                <div className="absolute top-4 right-4 z-20 px-3 py-1 text-[10px] font-bold tracking-wider uppercase text-white bg-gray-950/80 rounded-full border border-gray-800/80 shadow-md">
                   {project.category}
                 </div>
 
@@ -124,6 +112,7 @@ const Projects = () => {
                 <img
                   src={project.image}
                   alt={project.title}
+                  loading="lazy"
                   className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"
                 />
               </div>
@@ -140,8 +129,8 @@ const Projects = () => {
                 {/* Tech Tags */}
                 <div className="flex flex-wrap gap-2 mb-6">
                   {project.tags.map((tag, tagIdx) => (
-                    <span 
-                      key={tagIdx} 
+                    <span
+                      key={tagIdx}
                       className="px-2.5 py-1 bg-gray-950/60 text-gray-400 text-xs font-semibold rounded-lg border border-gray-850 group-hover:border-[var(--card-glow-color)]/20 group-hover:text-white transition-all duration-300"
                     >
                       {tag}
@@ -151,14 +140,14 @@ const Projects = () => {
 
                 {/* Buttons/Links Section */}
                 <div className="flex items-center gap-4 pt-4 border-t border-gray-800/60 mt-auto">
-                  <a 
-                    href={project.github} 
+                  <a
+                    href={project.github}
                     className="flex-1 flex items-center justify-center gap-2 px-3 py-2 text-xs font-bold text-gray-400 bg-gray-950/50 hover:bg-gray-950 border border-gray-800 hover:border-gray-700 rounded-xl transition-all duration-300 shadow-sm text-center"
                   >
                     <FiGithub size={14} /> <span>Code</span>
                   </a>
-                  <a 
-                    href={project.demo} 
+                  <a
+                    href={project.demo}
                     className="flex-1 flex items-center justify-center gap-2 px-3 py-2 text-xs font-bold text-white transition-all duration-300 rounded-xl text-center shadow-md hover:scale-[1.02] active:scale-95"
                     style={{
                       background: `linear-gradient(135deg, ${project.themeColor} 0%, ${project.themeColorSecondary} 100%)`,
@@ -172,7 +161,7 @@ const Projects = () => {
             </motion.div>
           ))}
         </div>
-      </motion.div>
+      </div>
     </section>
   );
 };

@@ -118,7 +118,7 @@ const Footer = () => {
                     <p>
                       If you have any questions or concerns regarding this policy, feel free to reach out directly to:
                       <br />
-                      <a href="mailto:www.praveenking09@gmail.com" className="text-orange-400 hover:underline">www.praveenking09@gmail.com</a>
+                      <a href="mailto:praveenking09@gmail.com" className="text-orange-400 hover:underline">praveenking09@gmail.com</a>
                     </p>
                   </>
                 ) : (

@@ -1,7 +1,6 @@
 import { useState, useRef } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { FiMail, FiMapPin, FiGithub, FiLinkedin, FiSend, FiCheck, FiAlertCircle } from 'react-icons/fi';
-import { useProgrammaticScroll } from '../hooks/useProgrammaticScroll';
 
 const WEB3FORMS_ACCESS_KEY = 'c58b0f18-56f6-4ce4-b7e8-41f88ccf8204';
 
@@ -9,17 +8,6 @@ type FormStatus = 'idle' | 'sending' | 'success' | 'error';
 
 const Contact = () => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const isProgrammatic = useProgrammaticScroll();
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start end", "end start"]
-  });
-
-  const opacity = useTransform(scrollYProgress, [0, 0.1, 0.9, 1], [0, 1, 1, 0]);
-  const y = useTransform(scrollYProgress, [0, 0.1, 0.9, 1], [40, 0, 0, -40]);
-
-  const opacityVal = isProgrammatic ? 1 : opacity;
-  const yVal = isProgrammatic ? 0 : y;
 
   const [formData, setFormData] = useState({
     name: '',
@@ -91,11 +79,11 @@ const Contact = () => {
   };
 
   return (
-    <section ref={containerRef} id="contact" className="py-24 relative overflow-hidden">
-      {/* Background glassmorphic sheet overlaying canvas plexus particles */}
-      <div className="absolute inset-0 bg-gray-950/45 backdrop-blur-[6px] pointer-events-none" />
+    <section ref={containerRef} id="contact" className="min-h-[85vh] py-24 relative overflow-hidden flex flex-col justify-center">
+      {/* Background sheet — no backdrop-blur */}
+      <div className="absolute inset-0 bg-gray-950/60 pointer-events-none" />
 
-      <motion.div style={{ opacity: opacityVal, y: yVal }} className="container mx-auto px-6 md:px-12 relative z-10">
+      <div className="container mx-auto px-6 md:px-12 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -122,37 +110,37 @@ const Contact = () => {
             transition={{ duration: 0.6 }}
           >
             <div className="space-y-6 flex-grow">
-              {/* Email Card */}
-              <div 
+              {/* Email Card — no backdrop-blur */}
+              <div
                 onMouseMove={handleMouseMove}
-                className="bg-gray-900/40 backdrop-blur-md border border-gray-800/80 p-6 rounded-2xl flex items-center gap-5 transition-all duration-300 hover:border-orange-500/40 hover:shadow-[0_0_25px_rgba(249,115,22,0.15)] group relative overflow-hidden"
+                className="bg-gray-900/50 border border-gray-800/80 p-6 rounded-2xl flex items-center gap-5 transition-all duration-300 hover:border-orange-500/40 hover:shadow-[0_0_25px_rgba(249,115,22,0.15)] group relative overflow-hidden"
               >
                 {/* Interactive Spotlight background glow */}
-                <div 
+                <div
                   className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-0"
                   style={{
                     background: `radial-gradient(180px circle at var(--mouse-x, 0px) var(--mouse-y, 0px), rgba(249, 115, 22, 0.12), transparent 80%)`
                   }}
                 />
-                
+
                 <div className="relative z-10 p-4 bg-gray-950/80 border border-gray-850 rounded-xl text-orange-400 group-hover:scale-110 group-hover:border-orange-500/30 transition-all duration-300 shadow-md flex items-center justify-center shrink-0">
                   <FiMail size={24} />
                 </div>
                 <div className="relative z-10 min-w-0">
                   <h4 className="text-white font-semibold text-base mb-1">Email</h4>
-                  <a href="mailto:www.praveenking09@gmail.com" className="text-gray-400 hover:text-orange-400 transition-colors duration-300 text-sm md:text-base font-medium block truncate">
-                    www.praveenking09@gmail.com
+                  <a href="mailto:praveenking09@gmail.com" className="text-gray-400 hover:text-orange-400 transition-colors duration-300 text-sm md:text-base font-medium block truncate">
+                    praveenking09@gmail.com
                   </a>
                 </div>
               </div>
 
-              {/* Location Card */}
-              <div 
+              {/* Location Card — no backdrop-blur */}
+              <div
                 onMouseMove={handleMouseMove}
-                className="bg-gray-900/40 backdrop-blur-md border border-gray-800/80 p-6 rounded-2xl flex items-center gap-5 transition-all duration-300 hover:border-sky-500/40 hover:shadow-[0_0_25px_rgba(14,165,233,0.15)] group relative overflow-hidden"
+                className="bg-gray-900/50 border border-gray-800/80 p-6 rounded-2xl flex items-center gap-5 transition-all duration-300 hover:border-sky-500/40 hover:shadow-[0_0_25px_rgba(14,165,233,0.15)] group relative overflow-hidden"
               >
                 {/* Interactive Spotlight background glow */}
-                <div 
+                <div
                   className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-0"
                   style={{
                     background: `radial-gradient(180px circle at var(--mouse-x, 0px) var(--mouse-y, 0px), rgba(14, 165, 233, 0.12), transparent 80%)`
@@ -172,19 +160,19 @@ const Contact = () => {
               <div className="pt-8 border-t border-gray-900">
                 <h4 className="text-white font-bold text-lg mb-4 tracking-wide">Social Profiles</h4>
                 <div className="flex gap-4">
-                  <a 
-                    href="https://github.com" 
+                  <a
+                    href="https://github.com"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-12 h-12 bg-gray-900/40 backdrop-blur-md border border-gray-800/80 rounded-xl flex items-center justify-center text-gray-400 hover:text-white hover:border-white/30 hover:shadow-[0_0_15px_rgba(255,255,255,0.15)] transition-all duration-300 hover:-translate-y-1 shadow-sm"
+                    className="w-12 h-12 bg-gray-900/50 border border-gray-800/80 rounded-xl flex items-center justify-center text-gray-400 hover:text-white hover:border-white/30 hover:shadow-[0_0_15px_rgba(255,255,255,0.15)] transition-all duration-300 hover:-translate-y-1 shadow-sm"
                   >
                     <FiGithub size={20} />
                   </a>
-                  <a 
-                    href="https://linkedin.com" 
+                  <a
+                    href="https://linkedin.com"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-12 h-12 bg-gray-900/40 backdrop-blur-md border border-gray-800/80 rounded-xl flex items-center justify-center text-gray-400 hover:text-sky-400 hover:border-sky-500/40 hover:shadow-[0_0_15px_rgba(14,165,233,0.15)] transition-all duration-300 hover:-translate-y-1 shadow-sm"
+                    className="w-12 h-12 bg-gray-900/50 border border-gray-800/80 rounded-xl flex items-center justify-center text-gray-400 hover:text-sky-400 hover:border-sky-500/40 hover:shadow-[0_0_15px_rgba(14,165,233,0.15)] transition-all duration-300 hover:-translate-y-1 shadow-sm"
                   >
                     <FiLinkedin size={20} />
                   </a>
@@ -201,13 +189,13 @@ const Contact = () => {
             viewport={{ once: false, margin: "-120px 0px" }}
             transition={{ duration: 0.6 }}
           >
-            <form 
+            <form
               onMouseMove={handleMouseMove}
               onSubmit={handleSubmit}
-              className="bg-gray-900/40 backdrop-blur-md border border-gray-800/80 p-8 rounded-2xl shadow-xl relative overflow-hidden group/form flex flex-col h-full"
+              className="bg-gray-900/50 border border-gray-800/80 p-8 rounded-2xl shadow-xl relative overflow-hidden group/form flex flex-col h-full"
             >
               {/* Interactive Spotlight background glow */}
-              <div 
+              <div
                 className="absolute inset-0 opacity-0 group-hover/form:opacity-100 transition-opacity duration-300 pointer-events-none z-0"
                 style={{
                   background: `radial-gradient(400px circle at var(--mouse-x, 0px) var(--mouse-y, 0px), rgba(249, 115, 22, 0.05), transparent 80%)`
@@ -313,7 +301,7 @@ const Contact = () => {
             </form>
           </motion.div>
         </div>
-      </motion.div>
+      </div>
     </section>
   );
 };

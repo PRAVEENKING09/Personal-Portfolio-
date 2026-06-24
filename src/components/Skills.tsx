@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion } from 'framer-motion';
 import {
   SiPython,
   SiJavascript,
@@ -9,21 +9,9 @@ import {
   SiGithub
 } from 'react-icons/si';
 import { FaJava, FaDatabase, FaBrain, FaProjectDiagram, FaHtml5, FaCss3Alt } from 'react-icons/fa';
-import { useProgrammaticScroll } from '../hooks/useProgrammaticScroll';
 
 const Skills = () => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const isProgrammatic = useProgrammaticScroll();
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start end", "end start"]
-  });
-
-  const opacity = useTransform(scrollYProgress, [0, 0.15, 0.85, 1], [0, 1, 1, 0]);
-  const y = useTransform(scrollYProgress, [0, 0.15, 0.85, 1], [40, 0, 0, -40]);
-
-  const opacityVal = isProgrammatic ? 1 : opacity;
-  const yVal = isProgrammatic ? 0 : y;
   const skillsData = [
     { name: 'Python', icon: <SiPython className="w-10 h-10 mb-3" />, color: 'text-blue-500', colorCode: '#3b82f6', glowCode: 'rgba(59, 130, 246, 0.35)' },
     { name: 'Java', icon: <FaJava className="w-10 h-10 mb-3" />, color: 'text-orange-500', colorCode: '#f97316', glowCode: 'rgba(249, 115, 22, 0.35)' },
@@ -55,8 +43,8 @@ const Skills = () => {
   };
 
   return (
-    <section ref={containerRef} id="skills" className="py-24 relative">
-      <motion.div style={{ opacity: opacityVal, y: yVal }} className="container mx-auto px-6 md:px-12">
+    <section ref={containerRef} id="skills" className="pt-12 pb-24 relative">
+      <div className="container mx-auto px-6 md:px-12">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -87,10 +75,10 @@ const Skills = () => {
                 '--skill-color': skill.colorCode,
                 '--skill-color-glow': skill.glowCode,
               } as React.CSSProperties}
-              className="relative bg-gray-900/40 backdrop-blur-md border border-gray-800/80 rounded-2xl p-6 flex flex-col items-center justify-center text-center overflow-hidden transition-all duration-300 shadow-lg group skill-card-shine"
+              className="relative bg-gray-900/50 border border-gray-800/80 rounded-2xl p-6 flex flex-col items-center justify-center text-center overflow-hidden transition-all duration-300 shadow-lg group skill-card-shine"
             >
               {/* Inner radial glow on hover */}
-              <div 
+              <div
                 className="absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-500 pointer-events-none"
                 style={{
                   background: `radial-gradient(circle at center, ${skill.colorCode} 0%, transparent 70%)`
@@ -109,7 +97,7 @@ const Skills = () => {
             </motion.div>
           ))}
         </motion.div>
-      </motion.div>
+      </div>
     </section>
   );
 };

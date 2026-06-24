@@ -1,31 +1,23 @@
 import { useRef } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { FiBriefcase, FiAward, FiCalendar, FiMapPin } from 'react-icons/fi';
-import { useProgrammaticScroll } from '../hooks/useProgrammaticScroll';
 import internCert from '../assets/459CS23022.pdf';
 
-const Experience = () => {
+interface ExperienceProps {
+  onViewPdf: (pdfUrl: string, title: string) => void;
+}
+
+const Experience = ({ onViewPdf }: ExperienceProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const isProgrammatic = useProgrammaticScroll();
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start end", "end start"]
-  });
-
-  const opacity = useTransform(scrollYProgress, [0, 0.1, 0.9, 1], [0, 1, 1, 0]);
-  const y = useTransform(scrollYProgress, [0, 0.1, 0.9, 1], [40, 0, 0, -40]);
-
-  const opacityVal = isProgrammatic ? 1 : opacity;
-  const yVal = isProgrammatic ? 0 : y;
 
   const education = [
     {
-      title: "B.E. in Artificial Intelligence & Machine Learning",
+      title: "B.Tech in Artificial Intelligence & Machine Learning",
       institution: "Kishkinda University",
       period: "Present",
       description: "Focusing on advanced algorithms, neural networks, deep learning, and data science principles.",
       tags: ["Python", "Neural Networks", "Deep Learning", "Data Structures"],
-      location: "Koppal, Karnataka"
+      location: "Ballari, Karnataka"
     },
     {
       title: "Diploma in Computer Science & Engineering",
@@ -51,11 +43,11 @@ const Experience = () => {
   ];
 
   return (
-    <section ref={containerRef} id="experience" className="py-24 relative">
-      {/* Background glassmorphic sheet overlaying canvas plexus particles */}
-      <div className="absolute inset-0 bg-gray-950/45 backdrop-blur-[6px] pointer-events-none" />
+    <section ref={containerRef} id="experience" className="pt-12 pb-24 relative">
+      {/* Background sheet — no backdrop-blur */}
+      <div className="absolute inset-0 bg-gray-950/60 pointer-events-none" />
 
-      <motion.div style={{ opacity: opacityVal, y: yVal }} className="container mx-auto px-6 md:px-12 relative z-10">
+      <div className="container mx-auto px-6 md:px-12 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -74,7 +66,7 @@ const Experience = () => {
           <div className="w-full lg:w-1/2">
             <div className="flex items-center gap-4 mb-10">
               <div className="relative p-3 bg-sky-500/10 border border-sky-500/30 rounded-xl text-sky-400 shadow-[0_0_15px_rgba(14,165,233,0.15)] overflow-hidden group">
-                <FiAward size={24} className="relative z-10 animate-pulse" />
+                <FiAward size={24} className="relative z-10" />
                 <div className="absolute inset-0 bg-gradient-to-tr from-sky-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               </div>
               <div>
@@ -97,14 +89,14 @@ const Experience = () => {
                   transition={{ duration: 0.5, delay: idx * 0.15 }}
                   className="relative group"
                 >
-                  {/* Pulsing Dot */}
+                  {/* Dot */}
                   <div className="absolute -left-[41px] top-1.5 z-10 flex items-center justify-center">
-                    <span className="absolute inline-flex h-6 w-6 rounded-full bg-sky-400 opacity-20 animate-ping" />
+                    <span className="absolute inline-flex h-6 w-6 rounded-full bg-sky-400 opacity-20" />
                     <span className="relative inline-flex rounded-full h-4 w-4 bg-sky-500 border-2 border-gray-950 shadow-[0_0_10px_rgba(14,165,233,0.8)]" />
                   </div>
 
-                  {/* Card */}
-                  <div className="bg-gray-900/40 backdrop-blur-md border border-gray-800/80 p-6 rounded-2xl transition-all duration-300 hover:border-sky-500/40 hover:shadow-[0_0_30px_rgba(14,165,233,0.15)] group relative overflow-hidden">
+                  {/* Card — no backdrop-blur */}
+                  <div className="bg-gray-900/50 border border-gray-800/80 p-6 rounded-2xl transition-all duration-300 hover:border-sky-500/40 hover:shadow-[0_0_30px_rgba(14,165,233,0.15)] group relative overflow-hidden">
                     {/* Radial hover glow */}
                     <div className="absolute inset-0 bg-gradient-to-br from-sky-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
                     {/* Diagonal sweep shine */}
@@ -159,7 +151,7 @@ const Experience = () => {
           <div className="w-full lg:w-1/2">
             <div className="flex items-center gap-4 mb-10">
               <div className="relative p-3 bg-orange-500/10 border border-orange-500/30 rounded-xl text-orange-400 shadow-[0_0_15px_rgba(249,115,22,0.15)] overflow-hidden group">
-                <FiBriefcase size={24} className="relative z-10 animate-pulse" />
+                <FiBriefcase size={24} className="relative z-10" />
                 <div className="absolute inset-0 bg-gradient-to-tr from-orange-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               </div>
               <div>
@@ -182,18 +174,33 @@ const Experience = () => {
                   transition={{ duration: 0.5, delay: idx * 0.15 }}
                   className="relative group"
                 >
-                  {/* Pulsing Dot */}
+                  {/* Dot */}
                   <div className="absolute -left-[41px] top-1.5 z-10 flex items-center justify-center">
-                    <span className="absolute inline-flex h-6 w-6 rounded-full bg-orange-400 opacity-20 animate-ping" />
+                    <span className="absolute inline-flex h-6 w-6 rounded-full bg-orange-400 opacity-20" />
                     <span className="relative inline-flex rounded-full h-4 w-4 bg-orange-500 border-2 border-gray-950 shadow-[0_0_10px_rgba(249,115,22,0.8)]" />
                   </div>
 
-                  {/* Card */}
-                  <div className="bg-gray-900/40 backdrop-blur-md border border-gray-800/80 p-6 rounded-2xl transition-all duration-300 hover:border-orange-500/40 hover:shadow-[0_0_30px_rgba(249,115,22,0.15)] group relative overflow-hidden">
+                  {/* Card — no backdrop-blur */}
+                  <div
+                    onClick={() => item.certificate && onViewPdf(item.certificate, item.title)}
+                    className={`bg-gray-900/50 border border-gray-800/80 p-6 rounded-2xl transition-all duration-300 hover:border-orange-500/40 hover:shadow-[0_0_30px_rgba(249,115,22,0.15)] group relative overflow-hidden ${item.certificate ? 'cursor-pointer' : ''}`}
+                  >
                     {/* Radial hover glow */}
                     <div className="absolute inset-0 bg-gradient-to-br from-orange-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
                     {/* Diagonal sweep shine */}
                     <div className="shine-effect" />
+
+                    {item.certificate && (
+                      <div className="w-full h-40 rounded-xl overflow-hidden mb-4 border border-gray-800 bg-black/40 relative select-none">
+                        <iframe
+                          src={`${item.certificate}#toolbar=0&navpanes=0&scrollbar=0&view=FitH`}
+                          className="w-full h-full border-0 pointer-events-none scale-105"
+                          scrolling="no"
+                        />
+                        {/* Clicks catch overlay */}
+                        <div className="absolute inset-0 z-10 bg-transparent" />
+                      </div>
+                    )}
 
                     <div className="flex flex-wrap items-center justify-between gap-3 mb-3">
                       <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold tracking-wider bg-orange-500/10 text-orange-400 border border-orange-500/20">
@@ -219,7 +226,7 @@ const Experience = () => {
                       {item.description}
                     </p>
 
-                    <div className="flex flex-wrap gap-2 mb-6">
+                    <div className="flex flex-wrap gap-2">
                       {item.tags.map((tag) => (
                         <span
                           key={tag}
@@ -229,27 +236,13 @@ const Experience = () => {
                         </span>
                       ))}
                     </div>
-
-                    {item.certificate && (
-                      <div className="pt-4 border-t border-gray-800/60">
-                        <a
-                          href={item.certificate}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center gap-2 px-4 py-2 text-xs font-bold text-orange-400 bg-orange-500/10 hover:bg-orange-500/20 border border-orange-500/30 hover:border-orange-500/50 rounded-xl transition-all duration-300 shadow-[0_0_15px_rgba(249,115,22,0.05)] hover:shadow-[0_0_15px_rgba(249,115,22,0.15)] group/btn"
-                        >
-                          <span>View Certificate</span>
-                          <span className="transform group-hover/btn:translate-x-1 transition-transform duration-300">&rarr;</span>
-                        </a>
-                      </div>
-                    )}
                   </div>
                 </motion.div>
               ))}
             </div>
           </div>
         </div>
-      </motion.div>
+      </div>
     </section>
   );
 };

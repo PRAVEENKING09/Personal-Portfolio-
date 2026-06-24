@@ -1,21 +1,9 @@
 import { useRef } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { FiMapPin, FiGlobe, FiBookOpen, FiCpu, FiCode, FiLayout, FiAward } from 'react-icons/fi';
-import { useProgrammaticScroll } from '../hooks/useProgrammaticScroll';
 
 const About = () => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const isProgrammatic = useProgrammaticScroll();
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start end", "end start"]
-  });
-
-  const opacity = useTransform(scrollYProgress, [0, 0.15, 0.85, 1], [0, 1, 1, 0]);
-  const y = useTransform(scrollYProgress, [0, 0.15, 0.85, 1], [40, 0, 0, -40]);
-
-  const opacityVal = isProgrammatic ? 1 : opacity;
-  const yVal = isProgrammatic ? 0 : y;
 
   const highlights = [
     {
@@ -49,15 +37,15 @@ const About = () => {
   ];
 
   return (
-    <section ref={containerRef} id="about" className="py-24 relative overflow-hidden">
-      {/* Background glassmorphic sheet overlaying canvas plexus particles */}
-      <div className="absolute inset-0 bg-gray-950/45 backdrop-blur-[6px] pointer-events-none" />
+    <section ref={containerRef} id="about" className="pt-12 pb-24 relative overflow-hidden">
+      {/* Background sheet — NO backdrop-blur for performance */}
+      <div className="absolute inset-0 bg-gray-950/60 pointer-events-none" />
 
-      {/* Decorative ambient glowing circles */}
-      <div className="absolute top-1/4 -left-20 w-80 h-80 bg-orange-500/5 rounded-full blur-3xl pointer-events-none"></div>
-      <div className="absolute bottom-1/4 -right-20 w-80 h-80 bg-sky-500/5 rounded-full blur-3xl pointer-events-none"></div>
+      {/* Decorative ambient circles — use blur-2xl instead of blur-3xl */}
+      <div className="absolute top-1/4 -left-20 w-80 h-80 bg-orange-500/5 rounded-full blur-2xl pointer-events-none"></div>
+      <div className="absolute bottom-1/4 -right-20 w-80 h-80 bg-sky-500/5 rounded-full blur-2xl pointer-events-none"></div>
 
-      <motion.div style={{ opacity: opacityVal, y: yVal }} className="container mx-auto px-6 md:px-12 relative z-10">
+      <div className="container mx-auto px-6 md:px-12 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -85,15 +73,15 @@ const About = () => {
             </h3>
 
             <p className="text-gray-400 leading-relaxed text-base">
-              I am a dedicated <span className="text-white font-semibold">Diploma CSE graduate</span> currently advancing my education with a <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-sky-400 font-semibold">B.E. in Artificial Intelligence & Machine Learning</span> at Kishkinda University. My academic and practical experiences have fueled my passion for <span className="text-white font-semibold">creating intelligent systems and robust applications</span>.
+              I am a dedicated <span className="text-white font-semibold">Diploma CSE graduate</span> currently advancing my education with a <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-sky-400 font-semibold">B.Tech in Artificial Intelligence & Machine Learning</span> at Kishkinda University, Ballari. My academic and practical experiences have fueled my passion for <span className="text-white font-semibold">creating intelligent systems and robust applications</span>.
             </p>
             <p className="text-gray-400 leading-relaxed text-base">
               I thrive on solving complex problems, learning cutting-edge technologies, and building solutions that have a <span className="text-sky-400 font-semibold">real-world impact</span>. As I prepare for placements, I am eager to apply my strong foundation in computer science and <span className="text-orange-500 font-semibold">specialized skills in AI/ML</span> to professional challenges.
             </p>
 
-            {/* Quick Info Grid */}
+            {/* Quick Info Grid — removed backdrop-blur-md */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-8 border-t border-gray-900">
-              <div className="flex items-center gap-4 p-4 rounded-2xl bg-gray-900/30 backdrop-blur-md border border-gray-800/60 hover:border-orange-500/30 hover:shadow-[0_0_20px_rgba(249,115,22,0.1)] transition-all duration-300 group/item">
+              <div className="flex items-center gap-4 p-4 rounded-2xl bg-gray-900/50 border border-gray-800/60 hover:border-orange-500/30 transition-all duration-300 group/item">
                 <div className="p-3 bg-gray-950 border border-gray-850 rounded-xl text-orange-400 group-hover/item:scale-110 transition-transform duration-300 shadow-md">
                   <FiMapPin size={18} />
                 </div>
@@ -103,7 +91,7 @@ const About = () => {
                 </div>
               </div>
 
-              <div className="flex items-center gap-4 p-4 rounded-2xl bg-gray-900/30 backdrop-blur-md border border-gray-800/60 hover:border-sky-500/30 hover:shadow-[0_0_20px_rgba(14,165,233,0.1)] transition-all duration-300 group/item">
+              <div className="flex items-center gap-4 p-4 rounded-2xl bg-gray-900/50 border border-gray-800/60 hover:border-sky-500/30 transition-all duration-300 group/item">
                 <div className="p-3 bg-gray-950 border border-gray-850 rounded-xl text-sky-400 group-hover/item:scale-110 transition-transform duration-300 shadow-md">
                   <FiGlobe size={18} />
                 </div>
@@ -113,13 +101,13 @@ const About = () => {
                 </div>
               </div>
 
-              <div className="flex items-center gap-4 p-4 rounded-2xl bg-gray-900/30 backdrop-blur-md border border-gray-800/60 hover:border-emerald-500/30 hover:shadow-[0_0_20px_rgba(16,185,129,0.1)] transition-all duration-300 group/item sm:col-span-2">
+              <div className="flex items-center gap-4 p-4 rounded-2xl bg-gray-900/50 border border-gray-800/60 hover:border-emerald-500/30 transition-all duration-300 group/item sm:col-span-2">
                 <div className="p-3 bg-gray-950 border border-gray-850 rounded-xl text-emerald-400 group-hover/item:scale-110 transition-transform duration-300 shadow-md">
                   <FiBookOpen size={18} />
                 </div>
                 <div>
                   <h4 className="text-white font-semibold text-sm">Current Status</h4>
-                  <p className="text-gray-400 text-xs mt-0.5">Pursuing B.E. in AI & ML at Kishkinda University</p>
+                  <p className="text-gray-400 text-xs mt-0.5">Pursuing B.Tech in AI & ML at Kishkinda University, Ballari</p>
                 </div>
               </div>
             </div>
@@ -142,10 +130,10 @@ const About = () => {
                   '--skill-color': item.colorCode,
                   '--skill-color-glow': item.glowCode,
                 } as React.CSSProperties}
-                className="group bg-gray-900/40 backdrop-blur-md border border-gray-800/80 p-6 rounded-2xl flex flex-col justify-between transition-all duration-300 shadow-lg relative overflow-hidden skill-card-shine"
+                className="group bg-gray-900/50 border border-gray-800/80 p-6 rounded-2xl flex flex-col justify-between transition-all duration-300 shadow-lg relative overflow-hidden skill-card-shine"
               >
                 {/* Radial hover glow */}
-                <div 
+                <div
                   className="absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-500 pointer-events-none"
                   style={{
                     background: `radial-gradient(circle at center, ${item.colorCode} 0%, transparent 70%)`
@@ -170,7 +158,7 @@ const About = () => {
             ))}
           </motion.div>
         </div>
-      </motion.div>
+      </div>
     </section>
   );
 };

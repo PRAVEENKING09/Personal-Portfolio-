@@ -120,10 +120,10 @@ const Background3D = () => {
 
     const init = () => {
       particlesArray = [];
-      // Dynamic density based on screen size (highly optimized density)
-      let numberOfParticles = (canvas.height * canvas.width) / 8500;
-      // Cap the particles to 250 for high performance
-      if (numberOfParticles > 250) numberOfParticles = 250;
+      // Aggressively reduced: /15000 density, cap at 100
+      // With 100 particles, the O(n²) connect loop does ~5000 comparisons vs ~31000 with 250
+      let numberOfParticles = (canvas.height * canvas.width) / 15000;
+      if (numberOfParticles > 100) numberOfParticles = 100;
 
       for (let i = 0; i < numberOfParticles; i++) {
         particlesArray.push(new Particle());
@@ -132,43 +132,54 @@ const Background3D = () => {
 
     const connect = () => {
       let opacityValue = 1;
+      // Use squared distance to avoid expensive Math.sqrt() calls
       const connectionDist = 95;
-      for (let a = 0; a < particlesArray.length; a++) {
-        for (let b = a; b < particlesArray.length; b++) {
-          let dx = particlesArray[a].x - particlesArray[b].x;
-          let dy = particlesArray[a].y - particlesArray[b].y;
-          let distance = Math.sqrt(dx * dx + dy * dy);
+      const connectionDistSq = connectionDist * connectionDist;
+      const mouseRadiusSq = mouse.radius * mouse.radius;
+      const len = particlesArray.length;
 
-          if (distance < connectionDist) {
+      for (let a = 0; a < len; a++) {
+        const pA = particlesArray[a];
+
+        for (let b = a + 1; b < len; b++) {
+          const pB = particlesArray[b];
+          let dx = pA.x - pB.x;
+          let dy = pA.y - pB.y;
+          let distSq = dx * dx + dy * dy;
+
+          if (distSq < connectionDistSq) {
+            // Only compute sqrt when we actually need opacity
+            let distance = Math.sqrt(distSq);
             opacityValue = 1 - (distance / connectionDist);
             // Dynamic theme colored connecting lines
-            const isOrange = particlesArray[a].color.includes('249');
+            const isOrange = pA.color.includes('249');
             ctx.strokeStyle = isOrange
               ? `rgba(249, 115, 22, ${opacityValue * 0.15})`
               : `rgba(14, 165, 233, ${opacityValue * 0.15})`;
             ctx.lineWidth = 0.85;
             ctx.beginPath();
-            ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
-            ctx.lineTo(particlesArray[b].x, particlesArray[b].y);
+            ctx.moveTo(pA.x, pA.y);
+            ctx.lineTo(pB.x, pB.y);
             ctx.stroke();
           }
         }
 
         // Connect dots to the mouse cursor
         if (mouse.x != null && mouse.y != null) {
-          let dx = particlesArray[a].x - mouse.x;
-          let dy = particlesArray[a].y - mouse.y;
-          let distance = Math.sqrt(dx * dx + dy * dy);
+          let dx = pA.x - mouse.x;
+          let dy = pA.y - mouse.y;
+          let distSq = dx * dx + dy * dy;
 
-          if (distance < mouse.radius) {
+          if (distSq < mouseRadiusSq) {
+            let distance = Math.sqrt(distSq);
             opacityValue = 1 - (distance / mouse.radius);
-            const isOrange = particlesArray[a].color.includes('249');
+            const isOrange = pA.color.includes('249');
             ctx.strokeStyle = isOrange
               ? `rgba(249, 115, 22, ${opacityValue * 0.35})`
               : `rgba(14, 165, 233, ${opacityValue * 0.35})`;
             ctx.lineWidth = 1.2;
             ctx.beginPath();
-            ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
+            ctx.moveTo(pA.x, pA.y);
             ctx.lineTo(mouse.x, mouse.y);
             ctx.stroke();
           }
